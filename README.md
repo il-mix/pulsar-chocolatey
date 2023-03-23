@@ -66,5 +66,5 @@ If everything is ok, request to publish it on Chocolatey website.
 
 ## To do
 
-- update package with 'latest' release; wait for a tatic URL to download installer; no more input parameter (version) needed
+- update package with 'latest' release; wait for a static URL to download installer; no more input parameter (version) needed
 - parse version of 'latest' installer (from filename or from embedded data)
