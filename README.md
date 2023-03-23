@@ -33,7 +33,11 @@ Once the sources are updated, navigate to pulsar folder and run
 
 Chocolatey will generate the file `pulsar\pulsar.<version>.nupkg`.
 
-Test the package locally, then request to publish it on Chocolatey website.
+Test the package locally
+
+```choco install pulsar --source .\pulsar\pulsar.<version>.nupkg```
+
+If everything is ok, request to publish it on Chocolatey website.
 
 ## To do
 
