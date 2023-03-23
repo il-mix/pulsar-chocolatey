@@ -14,7 +14,7 @@ The package contains:
 
 ### Chocolatey package manager
 
-Start Windows PowerShell as administrator, then run the command
+Chocolatey is needed to generate and test the package locally. To install it (if not already installed), start Windows PowerShell as administrator and run the command
 
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
@@ -22,7 +22,7 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
 
 ### Python
 
-The initialization script is written in Python. Python3 for Windows is needed to run it. Download latest release from [Python website](https://www.python.org/downloads/windows/).
+The initialization script is written in Python. Python3 for Windows is needed to run it. If not already installed, download latest release from [Python website](https://www.python.org/downloads/windows/) and install it.
 
 Once installed, add `requests` module using PIP
 
