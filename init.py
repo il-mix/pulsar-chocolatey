@@ -14,6 +14,7 @@ class PackageFilesEditor():
 	NUSPEC_FILE = PACKAGE_SOURCES_PATH + "pulsar.nuspec"
 	INSTALL_SCRIPT_PATH = PACKAGE_SOURCES_PATH + "tools/chocolateyinstall.ps1"
 	INSTALLER_PATH = PACKAGE_SOURCES_PATH + "tools/"
+	VERIFICATION_FILE_PATH = INSTALLER_PATH + "VERIFICATION.txt"
 	
 	# Class properties
 	pulsarVersion_ = 0
@@ -35,6 +36,7 @@ class PackageFilesEditor():
 		
 		self.editNuspecPackage()
 		self.editInstallScript()
+		self.generateVerificationFile()
 		
 		print("Package sources initialized")
 		
@@ -56,7 +58,6 @@ class PackageFilesEditor():
 		with open(self.INSTALLER_PATH + self.installerFileName_, "rb") as f:
 			bytes = f.read() # read entire file as bytes
 			self.installerChecksum_ = hashlib.sha256(bytes).hexdigest();
-			print(self.installerChecksum_)
 			
 		print("DONE")
 	
@@ -93,6 +94,21 @@ class PackageFilesEditor():
 		
 		shutil.copy2("tmp", self.INSTALL_SCRIPT_PATH)
 		os.remove("tmp")
+		
+		print("DONE")
+		
+	def generateVerificationFile(self):
+		print("Generate verification file...");
+		verificationFile = codecs.open(self.VERIFICATION_FILE_PATH, "w", "utf-8")
+		
+		verificationFile.write("VERIFICATION" + os.linesep)
+		verificationFile.write(os.linesep)
+		verificationFile.write("Installer file: " + self.installerFileName_ + os.linesep)
+		verificationFile.write("Checksum: " + self.installerChecksum_ + os.linesep)
+		verificationFile.write("Checksum type: SHA256" + os.linesep)
+		verificationFile.write("Original installer and checksums can be found at: https://github.com/pulsar-edit/pulsar/releases/tag/v" + self.pulsarVersion_ + os.linesep)
+		
+		verificationFile.close()
 		
 		print("DONE")
 	
