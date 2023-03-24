@@ -34,12 +34,16 @@ pip install requests
 
 ### init.py
 
-The script will download the Pulsar installer given the input version, and edit a couple of source files accordingly.
+The script will download the Pulsar installer given the input version, and edit a couple of source files accordingly, namely:
+
+- pulsar.nuspec: the main package reference file. init.py script will update the version number
+- tools\chocolateyinstall.ps1: Chocolatey install script. init.py will update the installer .exe filename and checksum
+- tools\VERIFICATION.txt: a file with some info used by package validators. init.py generates the file, declaring the setup file name and checksum, and adds the URL where the validator can find the original installer and checksum.
 
 Example usage:
 
 ```
-python 1.103.0
+python init.py 1.103.0
 ```
 
 One must input the last version available on the website, otherwise the script will fail (it won't be able to download the installer).
@@ -56,10 +60,18 @@ choco pack
 
 Chocolatey will generate the file `pulsar\pulsar.<version>.nupkg`.
 
-Test the package locally
+Test the package locally. From the command line shell, navigate to the directory where the *.nupkg file is located, then type:
 
 ```
-choco install pulsar --source .\pulsar\pulsar.<version>.nupkg
+choco install pulsar --source .
+```
+
+Check that the commands executes without errors, and Pulsar gets instaled on your system.
+
+Try to unistall it, too
+
+```
+choco uninstall pulsar
 ```
 
 If everything is ok, request to publish it on Chocolatey website.

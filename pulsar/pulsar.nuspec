@@ -41,14 +41,14 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- There are a number of CDN Services that can be used for hosting the Icon for a package. More information can be found here: https://docs.chocolatey.org/en-us/create/create-packages#package-icon-guidelines -->
     <!-- Here is an example using Githack -->
     <iconUrl>https://cdn.statically.io/gh/il-mix/pulsar-chocolatey/main/resources/icon.png</iconUrl>
-    <!-- <copyright>Year Software Vendor</copyright> -->
+    <copyright>Copyright (c) 2022-2023 Pulsar-Edit</copyright>
     <!-- If there is a license Url available, it is required for the community feed -->
-    <licenseUrl>https://choosealicense.com/licenses/mit/</licenseUrl>
+    <licenseUrl>https://cdn.statically.io/gh/pulsar-edit/pulsar/03eace72/LICENSE.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <!--<projectSourceUrl>Software Source Location - is the software FOSS somewhere? Link to it with this</projectSourceUrl>-->
+    <projectSourceUrl>https://github.com/pulsar-edit/pulsar</projectSourceUrl>
     <docsUrl>https://pulsar-edit.dev/docs/</docsUrl>
     <!--<mailingListUrl></mailingListUrl>-->
-    <!--<bugTrackerUrl></bugTrackerUrl>-->
+    <bugTrackerUrl>https://github.com/pulsar-edit/pulsar/issues</bugTrackerUrl>
     <tags>pulsar editor text</tags>
     <summary>A Community-led Hyper-Hackable Text Editor</summary>
     <description>A Community-led Hyper-Hackable Text Editor, Forked from Atom, built on Electron.
