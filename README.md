@@ -68,3 +68,4 @@ If everything is ok, request to publish it on Chocolatey website.
 
 - update package with 'latest' release; wait for a static URL to download installer; no more input parameter (version) needed
 - parse version of 'latest' installer (from filename or from embedded data)
+- have a static URL for latest version checksums, to check installer file after download
