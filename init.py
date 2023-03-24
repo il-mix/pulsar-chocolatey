@@ -5,6 +5,7 @@ import argparse
 import codecs
 import shutil
 import requests
+import hashlib
 
 # Class defining methods to edit package's source files given desired Pulsar version
 class PackageFilesEditor():
@@ -18,6 +19,7 @@ class PackageFilesEditor():
 	pulsarVersion_ = 0
 	installerUrl_ = "https://github.com/pulsar-edit/pulsar/releases/download/"
 	installerFileName_ = ""
+	installerChecksum_ = ""
 	
 	# Class initializer
 	def __init__(self, pulsarVersion):
@@ -48,6 +50,15 @@ class PackageFilesEditor():
 		open(self.INSTALLER_PATH + self.installerFileName_, "wb").write(response.content)
 		
 		print("DONE")
+		
+		print("Compute SHA256 checksum...")
+		
+		with open(self.INSTALLER_PATH + self.installerFileName_, "rb") as f:
+			bytes = f.read() # read entire file as bytes
+			self.installerChecksum_ = hashlib.sha256(bytes).hexdigest();
+			print(self.installerChecksum_)
+			
+		print("DONE")
 	
 	def editNuspecPackage(self):
 		print("Edit " + self.NUSPEC_FILE + "file...")
@@ -73,6 +84,8 @@ class PackageFilesEditor():
 		for line in installScriptOriginal:
 			if ".exe" in line:
 				installScriptNew.write("$fileLocation = Join-Path $toolsDir '" + self.installerFileName_ + "'" + os.linesep)
+			elif "checksum" in line and not "Type" in line:
+				installScriptNew.write("  checksum       = '" + self.installerChecksum_ + "'" + os.linesep)
 			else:
 				installScriptNew.write(line)
 		installScriptOriginal.close()
