@@ -48,11 +48,14 @@ python init.py 1.103.0
 
 One must input the last version available on the website, otherwise the script will fail (it won't be able to download the installer).
 
-Once the script terminates, tha package is ready to be generated.
+Once the script terminates, the package is ready to be generated.
 
 ### Package generation
 
-Once the sources are updated, navigate to pulsar folder and run
+Once the sources are updated, navigate to `pulsar` folder and run:
+
+It is also recommended to update the following fields of the `pulsar.nuspec` prior to creating a new version:
+- `releaseNotes`
 
 ```
 choco pack
@@ -66,15 +69,19 @@ Test the package locally. From the command line shell, navigate to the directory
 choco install pulsar --source .
 ```
 
-Check that the commands executes without errors, and Pulsar gets instaled on your system.
+Check that the commands executes without errors, and Pulsar gets installed on your system.
 
-Try to unistall it, too
+Try to uninstall it, too
 
 ```
 choco uninstall pulsar
 ```
 
 If everything is ok, request to publish it on Chocolatey website.
+
+```
+choco push pulsar.1.103.0.nupkg --source https://push.chocolatey.org/
+```
 
 ## To do
 

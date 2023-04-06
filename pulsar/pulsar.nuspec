@@ -27,7 +27,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <!-- Is the version a prerelease of a version? https://docs.nuget.org/create/versioning#creating-prerelease-packages -->
     <!-- Note that unstable versions like 0.0.1 can be considered a released version, but it's possible that one can release a 0.0.1-beta before you release a 0.0.1 version. If the version number is final, that is considered a released version and not a prerelease. -->
     <version>1.103.0</version>
-    <!-- <packageSourceUrl>Where is this Chocolatey package located (think GitHub)? packageSourceUrl is highly recommended for the community feed</packageSourceUrl>-->
+    <packageSourceUrl>https://github.com/pulsar-edit/pulsar-chocolatey</packageSourceUrl>
     <!-- owners is a poor name for maintainers of the package. It sticks around by this name for compatibility reasons. It basically means you. -->
     <!--<owners>__REPLACE_YOUR_NAME__</owners>-->
     <!-- ============================== -->
@@ -40,7 +40,7 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <projectUrl>https://pulsar-edit.dev</projectUrl>
     <!-- There are a number of CDN Services that can be used for hosting the Icon for a package. More information can be found here: https://docs.chocolatey.org/en-us/create/create-packages#package-icon-guidelines -->
     <!-- Here is an example using Githack -->
-    <iconUrl>https://cdn.statically.io/gh/il-mix/pulsar-chocolatey/main/resources/icon.png</iconUrl>
+    <iconUrl>https://cdn.statically.io/gh/pulsar-edit/pulsar-chocolatey/main/resources/icon.png</iconUrl>
     <copyright>Copyright (c) 2022-2023 Pulsar-Edit</copyright>
     <!-- If there is a license Url available, it is required for the community feed -->
     <licenseUrl>https://cdn.statically.io/gh/pulsar-edit/pulsar/03eace72/LICENSE.md</licenseUrl>
@@ -53,9 +53,8 @@ This is a nuspec. It mostly adheres to https://docs.nuget.org/create/Nuspec-Refe
     <summary>A Community-led Hyper-Hackable Text Editor</summary>
     <description>A Community-led Hyper-Hackable Text Editor, Forked from Atom, built on Electron.
 Designed to be deeply customizable, but still approachable using the default configuration.
-</description>
-    <!-- <releaseNotes>__REPLACE_OR_REMOVE__MarkDown_Okay</releaseNotes> -->
-    <!-- =============================== -->
+    </description>
+    <releaseNotes>https://github.com/pulsar-edit/pulsar/blob/master/CHANGELOG.md#11030</releaseNotes>
 
     <!-- Specifying dependencies and version ranges? https://docs.nuget.org/create/versioning#specifying-version-ranges-in-.nuspec-files -->
     <!--<dependencies>
