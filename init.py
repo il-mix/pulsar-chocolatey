@@ -31,7 +31,7 @@ class PackageFilesEditor():
 		self.pulsarVersion_ = pulsarVersion
 		if(self.pulsarVersion_[0] == "v"):
 			self.pulsarVersion_ = self.pulsarVersion_[1:]
-		self.pulsarVersionName_ = "v" + pulsarVersion
+		self.pulsarVersionName_ = "v" + self.pulsarVersion_
 		self.installerFileName_ = "Windows.Pulsar.Setup." + self.pulsarVersion_ + ".exe"
 		self.assetsDownloadUrl_ = self.assetsDownloadUrl_ + self.pulsarVersionName_
 		self.installerDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.installerFileName_
