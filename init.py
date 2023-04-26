@@ -15,49 +15,62 @@ class PackageFilesEditor():
 	INSTALL_SCRIPT_PATH = PACKAGE_SOURCES_PATH + "tools/chocolateyinstall.ps1"
 	INSTALLER_PATH = PACKAGE_SOURCES_PATH + "tools/"
 	VERIFICATION_FILE_PATH = INSTALLER_PATH + "VERIFICATION.txt"
+	INSTALLER_CHECKSUM_FILE_NAME = "SHA256SUMS.txt"
 	
 	# Class properties
-	pulsarVersion_ = 0
-	installerUrl_ = "https://github.com/pulsar-edit/pulsar/releases/download/"
-	installerFileName_ = ""
-	installerChecksum_ = ""
+	pulsarVersion_ = ""
+	pulsarVersionName_ = ""
+	assetsDownloadUrl_ = "https://github.com/pulsar-edit/pulsar/releases/download/"
+	installerFileName_ = "Windows.Pulsar.Setup"
+	installerDownloadUrl_ = ""
+	installerChecksumDownloadUrl_ = ""
 	
 	# Class initializer
 	def __init__(self, pulsarVersion):
+		# Initialize file names and URLs given required version
 		self.pulsarVersion_ = pulsarVersion
-		self.installerFileName_ = "Windows.Pulsar.Setup." + pulsarVersion + ".exe"
-		self.installerUrl_ = self.installerUrl_ + "v" + pulsarVersion + "/" + self.installerFileName_
+		self.pulsarVersionName_ = pulsarVersion
+		if(self.pulsarVersionName_[0] != "v"):
+			self.pulsarVersionName_ = "v" + self.pulsarVersionName_
+		self.installerFileName_ = "Windows.Pulsar.Setup." + self.pulsarVersion_ + ".exe"
+		self.assetsDownloadUrl_ = self.assetsDownloadUrl_ + self.pulsarVersionName_
+		self.installerDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.installerFileName_
+		self.installerChecksumDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.INSTALLER_CHECKSUM_FILE_NAME	
 	
 	# Main function run from main
 	def run(self):
 		print("Init configuration files to generate package for version " + self.pulsarVersion_)
 		
-		self.downloadInstaller()
+		self.retirieveInstallerChecksum()
 		
-		self.editNuspecPackage()
-		self.editInstallScript()
-		self.generateVerificationFile()
+		#self.editNuspecPackage()
+		#self.editInstallScript()
+		#self.generateVerificationFile()
 		
 		print("Package sources initialized")
-		
 	
-	def downloadInstaller(self):
-		print("Download installer for version " + self.pulsarVersion_ + "...")
+	def retirieveInstallerChecksum(self):
+		print("Retrieve installer file's checksum for verification")
 		
-		response = requests.get(self.installerUrl_)
+		response = requests.get(self.installerChecksumDownloadUrl_)
 		if(response.status_code != 200):
-			print("Error " + str(response.status_code) + " while downloading install file")
+			print("Error " + str(response.status_code) + " while downloading checksum file")
 			sys.exit(1)
 		
-		open(self.INSTALLER_PATH + self.installerFileName_, "wb").write(response.content)
+		open(self.INSTALLER_CHECKSUM_FILE_NAME, "wb").write(response.content)
 		
 		print("DONE")
 		
-		print("Compute SHA256 checksum...")
+		print("Extract SHA256 checksum for installer file from checksums list")
 		
-		with open(self.INSTALLER_PATH + self.installerFileName_, "rb") as f:
-			bytes = f.read() # read entire file as bytes
-			self.installerChecksum_ = hashlib.sha256(bytes).hexdigest();
+		with open(self.INSTALLER_CHECKSUM_FILE_NAME, "r") as f:
+			lines = f.readlines()
+			for index, line in enumerate(lines):
+				if(self.installerFileName_ in line):
+					self.installerChecksum_ = line.split()[0]
+					print("Installer file " + self.installerFileName_ + " checksum: " + self.installerChecksum_)
+					
+		os.remove(self.INSTALLER_CHECKSUM_FILE_NAME)
 			
 		print("DONE")
 	
