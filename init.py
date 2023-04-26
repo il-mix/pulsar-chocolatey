@@ -29,9 +29,9 @@ class PackageFilesEditor():
 	def __init__(self, pulsarVersion):
 		# Initialize file names and URLs given required version
 		self.pulsarVersion_ = pulsarVersion
-		self.pulsarVersionName_ = pulsarVersion
-		if(self.pulsarVersionName_[0] != "v"):
-			self.pulsarVersionName_ = "v" + self.pulsarVersionName_
+		if(self.pulsarVersion_[0] == "v"):
+			self.pulsarVersion_ = self.pulsarVersion_[1:]
+		self.pulsarVersionName_ = "v" + pulsarVersion
 		self.installerFileName_ = "Windows.Pulsar.Setup." + self.pulsarVersion_ + ".exe"
 		self.assetsDownloadUrl_ = self.assetsDownloadUrl_ + self.pulsarVersionName_
 		self.installerDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.installerFileName_
@@ -43,7 +43,7 @@ class PackageFilesEditor():
 		
 		self.retirieveInstallerChecksum()
 		
-		#self.editNuspecPackage()
+		self.editNuspecPackage()
 		#self.editInstallScript()
 		#self.generateVerificationFile()
 		
@@ -81,6 +81,8 @@ class PackageFilesEditor():
 		for line in nuspecFileOriginal:
 			if "<version>" in line:
 				nuspecFileNew.write("    <version>" + self.pulsarVersion_ + "</version>" + os.linesep)
+			elif "<releaseNotes>" in line:
+				nuspecFileNew.write("    <releaseNotes>https://github.com/pulsar-edit/pulsar/blob/master/CHANGELOG.md#" + self.pulsarVersion_.replace(".","") + "</releaseNotes>" + os.linesep)
 			else:
 				nuspecFileNew.write(line)
 		nuspecFileOriginal.close()
