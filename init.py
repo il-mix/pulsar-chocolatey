@@ -46,7 +46,7 @@ class PackageFilesEditor():
 		self.retirieveInstallerChecksum()
 		
 		self.editNuspecPackage()
-		#self.editInstallScript()
+		self.editInstallScript()
 		self.generateVerificationFile()
 		
 		print("Package sources initialized")
@@ -77,7 +77,7 @@ class PackageFilesEditor():
 		print("DONE")
 	
 	def editNuspecPackage(self):
-		print("Edit " + self.NUSPEC_FILE + "file...")
+		print("Edit " + self.NUSPEC_FILE + " file...")
 		nuspecFileOriginal = codecs.open(self.NUSPEC_FILE, "r", "utf-8")
 		nuspecFileNew = codecs.open("tmp", "w", "utf-8")
 		for line in nuspecFileOriginal:
@@ -96,12 +96,12 @@ class PackageFilesEditor():
 		print("DONE")
 		
 	def editInstallScript(self):
-		print("Edit " + self.INSTALL_SCRIPT_PATH + "file...")
+		print("Edit " + self.INSTALL_SCRIPT_PATH + " file...")
 		installScriptOriginal = codecs.open(self.INSTALL_SCRIPT_PATH, "r", "utf-8")
 		installScriptNew = codecs.open("tmp", "w", "utf-8")
 		for line in installScriptOriginal:
-			if ".exe" in line:
-				installScriptNew.write("$fileLocation = Join-Path $toolsDir '" + self.installerFileName_ + "'" + os.linesep)
+			if "https" in line:
+				installScriptNew.write("$url = '" + self.installerDownloadUrl_ + "'" + os.linesep)
 			elif "checksum" in line and not "Type" in line:
 				installScriptNew.write("  checksum       = '" + self.installerChecksum_ + "'" + os.linesep)
 			else:
