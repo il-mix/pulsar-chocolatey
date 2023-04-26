@@ -20,6 +20,7 @@ class PackageFilesEditor():
 	# Class properties
 	pulsarVersion_ = ""
 	pulsarVersionName_ = ""
+	githubReleaseUrl_ = "https://github.com/pulsar-edit/pulsar/releases/tag/"
 	assetsDownloadUrl_ = "https://github.com/pulsar-edit/pulsar/releases/download/"
 	installerFileName_ = "Windows.Pulsar.Setup"
 	installerDownloadUrl_ = ""
@@ -33,6 +34,7 @@ class PackageFilesEditor():
 			self.pulsarVersion_ = self.pulsarVersion_[1:]
 		self.pulsarVersionName_ = "v" + self.pulsarVersion_
 		self.installerFileName_ = "Windows.Pulsar.Setup." + self.pulsarVersion_ + ".exe"
+		self.githubReleaseUrl_ = self.githubReleaseUrl_ + self.pulsarVersionName_
 		self.assetsDownloadUrl_ = self.assetsDownloadUrl_ + self.pulsarVersionName_
 		self.installerDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.installerFileName_
 		self.installerChecksumDownloadUrl_ = self.assetsDownloadUrl_ + "/" + self.INSTALLER_CHECKSUM_FILE_NAME	
@@ -45,7 +47,7 @@ class PackageFilesEditor():
 		
 		self.editNuspecPackage()
 		#self.editInstallScript()
-		#self.generateVerificationFile()
+		self.generateVerificationFile()
 		
 		print("Package sources initialized")
 	
@@ -118,10 +120,9 @@ class PackageFilesEditor():
 		
 		verificationFile.write("VERIFICATION" + os.linesep)
 		verificationFile.write(os.linesep)
-		verificationFile.write("Installer file: " + self.installerFileName_ + os.linesep)
-		verificationFile.write("Checksum: " + self.installerChecksum_ + os.linesep)
-		verificationFile.write("Checksum type: SHA256" + os.linesep)
-		verificationFile.write("Original installer and checksums can be found at: https://github.com/pulsar-edit/pulsar/releases/tag/v" + self.pulsarVersion_ + os.linesep)
+		verificationFile.write("Install script will download " + self.installerFileName_ + " from " + self.githubReleaseUrl_ + os.linesep)
+		verificationFile.write("Installer checksum (SHA256): " + self.installerChecksum_ + os.linesep)
+		verificationFile.write("Checksum will be checked automatically by installer script." + os.linesep)
 		
 		verificationFile.close()
 		
