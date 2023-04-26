@@ -13,9 +13,12 @@ class PackageFilesEditor():
 	PACKAGE_SOURCES_PATH = "./pulsar/"
 	NUSPEC_FILE = PACKAGE_SOURCES_PATH + "pulsar.nuspec"
 	INSTALL_SCRIPT_PATH = PACKAGE_SOURCES_PATH + "tools/chocolateyinstall.ps1"
-	INSTALLER_PATH = PACKAGE_SOURCES_PATH + "tools/"
-	VERIFICATION_FILE_PATH = INSTALLER_PATH + "VERIFICATION.txt"
+	TOOLS_PATH = PACKAGE_SOURCES_PATH + "tools/"
+	VERIFICATION_FILE_PATH = TOOLS_PATH + "VERIFICATION.txt"
 	INSTALLER_CHECKSUM_FILE_NAME = "SHA256SUMS.txt"
+	LICENSE_URL = "https://github.com/pulsar-edit/pulsar/blob/master/LICENSE.md"
+	LICENSE_URL_RAW = "https://raw.githubusercontent.com/pulsar-edit/pulsar/master/LICENSE.md"
+	LICENSE_FILE_PATH = TOOLS_PATH + "LICENSE.txt"
 	
 	# Class properties
 	pulsarVersion_ = ""
@@ -48,6 +51,7 @@ class PackageFilesEditor():
 		self.editNuspecPackage()
 		self.editInstallScript()
 		self.generateVerificationFile()
+		self.downloadLicenseFile()
 		
 		print("Package sources initialized")
 	
@@ -85,6 +89,8 @@ class PackageFilesEditor():
 				nuspecFileNew.write("    <version>" + self.pulsarVersion_ + "</version>" + os.linesep)
 			elif "<releaseNotes>" in line:
 				nuspecFileNew.write("    <releaseNotes>https://github.com/pulsar-edit/pulsar/blob/master/CHANGELOG.md#" + self.pulsarVersion_.replace(".","") + "</releaseNotes>" + os.linesep)
+			elif "<licenseUrl>" in line:
+				nuspecFileNew.write("    <licenseUrl>" + self.LICENSE_URL + "</licenseUrl>" + os.linesep)
 			else:
 				nuspecFileNew.write(line)
 		nuspecFileOriginal.close()
@@ -115,7 +121,7 @@ class PackageFilesEditor():
 		print("DONE")
 		
 	def generateVerificationFile(self):
-		print("Generate verification file...");
+		print("Generate verification file...")
 		verificationFile = codecs.open(self.VERIFICATION_FILE_PATH, "w", "utf-8")
 		
 		verificationFile.write("VERIFICATION" + os.linesep)
@@ -125,6 +131,18 @@ class PackageFilesEditor():
 		verificationFile.write("Checksum will be checked automatically by installer script." + os.linesep)
 		
 		verificationFile.close()
+		
+		print("DONE")
+		
+	def downloadLicenseFile(self):
+		print("Download license file...")
+		
+		response = requests.get(self.LICENSE_URL_RAW)
+		if(response.status_code != 200):
+			print("Error " + str(response.status_code) + " while downloading license file")
+			sys.exit(1)
+		
+		open(self.LICENSE_FILE_PATH, "wb").write(response.content)
 		
 		print("DONE")
 	
